@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Details - AI Blog Generator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Smooth transitions */
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        
+        /* Blog content styling */
+        .blog-content {
+            line-height: 1.8;
+        }
+        
+        .blog-content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .blog-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #374151;
+        }
+        
+        .blog-content p {
+            margin-bottom: 1.25rem;
+        }
+        
+        .blog-content ul, .blog-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+        
+        .blog-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .blog-content a {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+        
+        .blog-content a:hover {
+            color: #1d4ed8;
+        }
+        
+        .blog-content blockquote {
+            border-left: 4px solid #3b82f6;
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #4b5563;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-100 font-sans antialias">
+    <!-- Navigation Bar -->
+    <nav class="bg-blue-600 p-4 text-white flex justify-between items-center">
+        <div>
+            <h1 class="text-3xl font-bold">AI Blog Generator</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            <a href="all_blog_posts.html" class="text-white hover:underline">All Blogs</a>
+            <a href="index.html" class="text-white hover:underline">Create New</a>
+            <a href="#" class="text-white hover:underline">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-grow container mx-auto px-4 py-8 mt-4 max-w-4xl">
+        
+        <!-- Blog Title Section -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-6">
+            <div class="mb-4">
+                <span class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full">
+                    Technology
+                </span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 leading-tight">
+                Getting Started with Artificial Intelligence: A Beginner's Guide
+            </h1>
+            <div class="flex items-center space-x-4 text-sm text-gray-500 border-t pt-4">
+                <span>📅 Published: December 15, 2024</span>
+                <span>⏱️ 5 min read</span>
+                <span>👤 By: AI Blog Generator</span>
+            </div>
+        </div>
+
+        <!-- Blog Description/Content Section -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-6">
+            <div class="blog-content text-gray-700">
+                <p class="text-lg font-medium text-gray-800 mb-6 leading-relaxed">
+                    Artificial Intelligence has revolutionized the way we interact with technology. In this comprehensive guide, we'll explore the fundamentals of AI, machine learning, and how these technologies are shaping our future.
+                </p>
+
+                <h2>What is Artificial Intelligence?</h2>
+                <p>
+                    Artificial Intelligence, commonly referred to as AI, is a branch of computer science that aims to create systems capable of performing tasks that typically require human intelligence. These tasks include learning, reasoning, problem-solving, perception, and language understanding.
+                </p>
+
+                <p>
+                    The field of AI has grown exponentially over the past few decades, moving from theoretical concepts to practical applications that we use in our daily lives. From voice assistants like Siri and Alexa to recommendation systems on Netflix and Amazon, AI is everywhere.
+                </p>
+
+                <h2>Understanding Machine Learning</h2>
+                <p>
+                    Machine Learning is a subset of AI that focuses on the development of algorithms that can learn and make decisions from data. Unlike traditional programming, where we write explicit instructions, machine learning systems improve their performance through experience.
+                </p>
+
+                <h3>Types of Machine Learning</h3>
+                <ul>
+                    <li><strong>Supervised Learning:</strong> The algorithm learns from labeled training data, making predictions or decisions based on that data.</li>
+                    <li><strong>Unsupervised Learning:</strong> The algorithm identifies patterns in data without labeled examples.</li>
+                    <li><strong>Reinforcement Learning:</strong> The algorithm learns through trial and error, receiving rewards or penalties for its actions.</li>
+                </ul>
+
+                <h2>Deep Learning and Neural Networks</h2>
+                <p>
+                    Deep Learning is a specialized form of machine learning that uses neural networks with multiple layers (hence "deep") to model and understand complex patterns. These neural networks are inspired by the structure of the human brain, with interconnected nodes (neurons) that process information.
+                </p>
+
+                <blockquote>
+                    "The future of AI is not about replacing humans, but about augmenting human capabilities and creating new possibilities we haven't yet imagined."
+                </blockquote>
+
+                <h2>Practical Applications of AI</h2>
+                <p>
+                    AI is being applied across various industries and domains:
+                </p>
+                <ol>
+                    <li><strong>Healthcare:</strong> AI helps in disease diagnosis, drug discovery, and personalized treatment plans.</li>
+                    <li><strong>Finance:</strong> Fraud detection, algorithmic trading, and risk assessment.</li>
+                    <li><strong>Transportation:</strong> Autonomous vehicles and traffic optimization.</li>
+                    <li><strong>Education:</strong> Personalized learning experiences and intelligent tutoring systems.</li>
+                    <li><strong>Entertainment:</strong> Content recommendation and content creation.</li>
+                </ol>
+
+                <h2>Getting Started with AI</h2>
+                <p>
+                    If you're interested in learning AI, here are some steps to get started:
+                </p>
+                <ul>
+                    <li>Learn the fundamentals of programming, particularly Python</li>
+                    <li>Study mathematics, especially linear algebra, calculus, and statistics</li>
+                    <li>Take online courses on machine learning and deep learning</li>
+                    <li>Practice with real-world projects and datasets</li>
+                    <li>Join AI communities and participate in competitions</li>
+                </ul>
+
+                <h2>Conclusion</h2>
+                <p>
+                    Artificial Intelligence is not just a technological trend; it's a fundamental shift in how we approach problem-solving and innovation. As AI continues to evolve, it will create new opportunities and challenges. Whether you're a developer, business professional, or simply curious about technology, understanding AI is becoming increasingly important in our digital age.
+                </p>
+
+                <p>
+                    The journey into AI might seem daunting at first, but with the right resources and dedication, anyone can begin to understand and work with these powerful technologies. Start small, practice consistently, and don't be afraid to experiment.
+                </p>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center space-x-4 mb-6">
+            <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                Edit Blog
+            </button>
+            <button class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-semibold">
+                Share
+            </button>
+            <button class="bg-red-100 text-red-600 px-6 py-3 rounded-lg hover:bg-red-200 transition-colors font-semibold">
+                Delete
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer with YouTube Link Details -->
+    <footer class="bg-white border-t border-gray-200 mt-auto">
+        <div class="container mx-auto px-4 py-6 max-w-4xl">
+            <!-- YouTube Source Section -->
+            <div class="bg-gray-50 rounded-lg p-6 mb-4">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                    <span class="mr-2">📺</span>
+                    Source Video
+                </h3>
+                <div class="space-y-2">
+                    <div class="flex items-start">
+                        <span class="text-gray-600 font-medium min-w-[100px]">YouTube Link:</span>
+                        <a href="https://www.youtube.com/watch?v=example123" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="text-blue-600 hover:text-blue-800 hover:underline break-all">
+                            https://www.youtube.com/watch?v=example123
+                        </a>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="text-gray-600 font-medium min-w-[100px]">Video Title:</span>
+                        <span class="text-gray-700">Introduction to Artificial Intelligence - Complete Course</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="text-gray-600 font-medium min-w-[100px]">Channel:</span>
+                        <span class="text-gray-700">Tech Education Channel</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="text-gray-600 font-medium min-w-[100px]">Duration:</span>
+                        <span class="text-gray-700">45:30</span>
+                    </div>
+                    <div class="flex items-start">
+                        <span class="text-gray-600 font-medium min-w-[100px]">Generated:</span>
+                        <span class="text-gray-700">December 15, 2024 at 2:30 PM</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="text-center pt-4 border-t border-gray-200">
+                <p class="text-sm text-gray-500">
+                    Powered by <a href="#" class="text-blue-600 hover:underline">MansoorAhmed084</a>
+                </p>
+                <p class="text-xs text-gray-400 mt-2">
+                    This blog post was automatically generated from a YouTube video using AI technology.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactive Features -->
+    <script>
+        // Function to handle edit button
+        document.querySelector('button:contains("Edit Blog")')?.addEventListener('click', function() {
+            // TODO: Implement edit functionality
+            console.log('Edit blog post');
+            alert('Edit functionality - Navigate to edit page');
+        });
+
+        // Function to handle share button
+        document.querySelector('button:contains("Share")')?.addEventListener('click', function() {
+            // TODO: Implement share functionality
+            if (navigator.share) {
+                navigator.share({
+                    title: document.querySelector('h1').textContent,
+                    text: 'Check out this blog post!',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback: Copy to clipboard
+                navigator.clipboard.writeText(window.location.href);
+                alert('Link copied to clipboard!');
+            }
+        });
+
+        // Function to handle delete button
+        document.querySelector('button:contains("Delete")')?.addEventListener('click', function() {
+            if (confirm('Are you sure you want to delete this blog post? This action cannot be undone.')) {
+                // TODO: Implement delete functionality
+                console.log('Delete blog post');
+                alert('Blog post deleted');
+                // Redirect to all blog posts page
+                // window.location.href = 'all_blog_posts.html';
+            }
+        });
+    </script>
+</body>
+</html>

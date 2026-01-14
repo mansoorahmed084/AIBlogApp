@@ -1,0 +1,244 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Try the new cross-platform PowerShell https://aka.ms/pscore6
+
+PS C:\Users\IN009286> eb --version
+EB CLI 3.25.3 (Python 3.13.9 (tags/v3.13.9:8183fa5, Oct 14 2025, 14:09:13) [MSC v.1944 64 bit (AMD64)])
+PS C:\Users\IN009286> cd ../../temp/AI
+PS C:\temp\AI>
+PS C:\temp\AI>
+PS C:\temp\AI> cd .\AI_blog_app\
+PS C:\temp\AI\AI_blog_app>
+PS C:\temp\AI\AI_blog_app>
+PS C:\temp\AI\AI_blog_app> ls
+
+
+    Directory: C:\temp\AI\AI_blog_app
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        13-01-2026     18:27                backend
+d-----        13-01-2026     12:17                blog_generator
+d-----        13-01-2026     12:22                config
+d-----        13-01-2026     11:58                frontend
+d-----        13-01-2026     12:19                templates
+-a----        13-01-2026     12:24         131072 db.sqlite3
+-a----        13-01-2026     12:04            684 manage.py
+
+
+PS C:\temp\AI\AI_blog_app> awsebcli -v
+awsebcli : The term 'awsebcli' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ awsebcli -v
++ ~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (awsebcli:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\temp\AI\AI_blog_app> awsebcli --version
+awsebcli : The term 'awsebcli' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At line:1 char:1
++ awsebcli --version
++ ~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (awsebcli:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\temp\AI\AI_blog_app> pip install awsebcli^C
+PS C:\temp\AI\AI_blog_app> aws configure
+File association not found for extension .py
+
+Default region name [None]: `ap-south-1`
+Default output format [None]: `json`
+PS C:\temp\AI\AI_blog_app> aws configure
+File association not found for extension .py
+
+Default region name [`ap-south-1`]: ap-south-1
+Default output format [`json`]: json
+PS C:\temp\AI\AI_blog_app>
+PS C:\temp\AI\AI_blog_app>
+PS C:\temp\AI\AI_blog_app> cd .\backend\
+PS C:\temp\AI\AI_blog_app\backend> eb init
+
+Select a default region
+1) us-east-1 : US East (N. Virginia)
+2) us-west-1 : US West (N. California)
+3) us-west-2 : US West (Oregon)
+4) eu-west-1 : EU (Ireland)
+5) eu-central-1 : EU (Frankfurt)
+6) ap-south-1 : Asia Pacific (Mumbai)
+7) ap-southeast-1 : Asia Pacific (Singapore)
+8) ap-southeast-2 : Asia Pacific (Sydney)
+9) ap-northeast-1 : Asia Pacific (Tokyo)
+10) ap-northeast-2 : Asia Pacific (Seoul)
+11) sa-east-1 : South America (Sao Paulo)
+12) cn-north-1 : China (Beijing)
+13) cn-northwest-1 : China (Ningxia)
+14) us-east-2 : US East (Ohio)
+15) ca-central-1 : Canada (Central)
+16) eu-west-2 : EU (London)
+17) eu-west-3 : EU (Paris)
+18) eu-north-1 : EU (Stockholm)
+19) eu-south-1 : EU (Milano)
+20) ap-east-1 : Asia Pacific (Hong Kong)
+21) me-south-1 : Middle East (Bahrain)
+22) af-south-1 : Africa (Cape Town)
+23) ap-southeast-3 : Asia Pacific (Jakarta)
+24) ap-northeast-3 : Asia Pacific (Osaka)
+25) il-central-1 : Israel (Tel Aviv)
+26) me-central-1 : Middle East (UAE)
+(default is 3): ap-south-1
+Sorry, that is not a valid choice. Please choose a number between 1 and 26.
+(default is 3): 6
+
+
+Enter Application Name
+(default is "backend"): ai-blog-generator
+Application ai-blog-generator has been created.
+
+It appears you are using Python. Is this correct?
+(Y/n): y
+Select a platform branch.
+1) Python 3.14 running on 64bit Amazon Linux 2023
+2) Python 3.13 running on 64bit Amazon Linux 2023
+3) Python 3.12 running on 64bit Amazon Linux 2023
+4) Python 3.11 running on 64bit Amazon Linux 2023
+5) Python 3.9 running on 64bit Amazon Linux 2023
+(default is 1): 2
+
+Do you want to set up SSH for your instances?
+(Y/n): y
+
+Type a keypair name.
+(Default is aws-eb):
+Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in C:\Users\IN009286\.ssh\aws-eb.
+Your public key has been saved in C:\Users\IN009286\.ssh\aws-eb.pub.
+The key fingerprint is:
+SHA256:4tIrB1uU5kLnkGlz4weehKcll/MHkMPN8Yx7MuWJ42o aws-eb
+The key's randomart image is:
++---[RSA 3072]----+
+|     . +..       |
+|      = o+       |
+|     + =. +      |
+|    X / .= .     |
+|   o ^.*S.+      |
+|    +oBoo=.      |
+|    .=o...       |
+|    o.Eo         |
+|     +o          |
++----[SHA256]-----+
+WARNING: Uploaded SSH public key for "aws-eb" into EC2 for region ap-south-1.
+PS C:\temp\AI\AI_blog_app\backend>
+PS C:\temp\AI\AI_blog_app\backend>
+PS C:\temp\AI\AI_blog_app\backend>
+PS C:\temp\AI\AI_blog_app\backend> cat .elasticbeanstalk/config.yml
+branch-defaults:
+  default:
+    environment: null
+    group_suffix: null
+global:
+  application_name: ai-blog-generator
+  branch: null
+  default_ec2_keyname: aws-eb
+  default_platform: Python 3.13 running on 64bit Amazon Linux 2023
+  default_region: ap-south-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: null
+  repository: null
+  sc: null
+  workspace_type: Application
+PS C:\temp\AI\AI_blog_app\backend>
+PS C:\temp\AI\AI_blog_app\backend>
+PS C:\temp\AI\AI_blog_app\backend> eb create ai-blog-env
+WARNING: Insufficient IAM privileges. Unable to determine if instance profile 'aws-elasticbeanstalk-ec2-role' exists, assuming that it exists.
+ERROR: NotAuthorizedError - No permissions to create a role. Create an IAM role called "aws-elasticbeanstalk-service-role" with appropriate permissions to continue, or specify a role with --service-role.
+See http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/concepts-roles.html for more info.
+Actual error: Operation Denied. User: arn:aws:iam::130236498315:user/elastic-beanstalk-user is not authorized to perform: iam:CreateRole on resource: arn:aws:iam::130236498315:role/aws-elasticbeanstalk-service-role because no identity-based policy allows the iam:CreateRole action
+PS C:\temp\AI\AI_blog_app\backend> eb create ai-blog-env --instance-type t3.small --single
+Creating application version archive "app-260113_185918376957".
+Uploading ai-blog-generator/app-260113_185918376957.zip to S3. This may take a while.
+Upload Complete.
+Environment details for: ai-blog-env
+  Application name: ai-blog-generator
+  Region: ap-south-1
+  Deployed Version: app-260113_185918376957
+  Environment ID: e-rmw2ygatih
+  Platform: arn:aws:elasticbeanstalk:ap-south-1::platform/Python 3.13 running on 64bit Amazon Linux 2023/4.9.0
+  Tier: WebServer-Standard-1.0
+  CNAME: UNKNOWN
+  Updated: 2026-01-13 13:29:21.068000+00:00
+Printing Status:
+2026-01-13 13:29:20    INFO    createEnvironment is starting.
+2026-01-13 13:29:21    INFO    Using elasticbeanstalk-ap-south-1-130236498315 as Amazon S3 storage bucket for environment data.
+2026-01-13 13:29:47    INFO    Created security group named: awseb-e-rmw2ygatih-stack-AWSEBSecurityGroup-cExMqSmSaba3
+2026-01-13 13:30:02    INFO    Created EIP: 3.6.211.191
+2026-01-13 13:30:18    INFO    Waiting for EC2 instances to launch. This may take a few minutes.
+2026-01-13 13:31:22    INFO    Instance deployment successfully generated a 'Procfile'.
+2026-01-13 13:31:41    ERROR   Instance deployment failed. For details, see 'eb-engine.log'.
+2026-01-13 13:31:45    ERROR   [Instance: i-0692bb3e43b7937da] Command failed on instance. Return code: 1 Output: Engine execution has encountered an error..
+2026-01-13 13:31:45    INFO    Command execution completed on all instances. Summary: [Successful: 0, Failed: 1].
+
+
+PS C:\temp\AI\AI_blog_app\backend> where eb.engine.log
+PS C:\temp\AI\AI_blog_app\backend> eb eb deploy^C
+PS C:\temp\AI\AI_blog_app\backend> ^C
+PS C:\temp\AI\AI_blog_app\backend> eb deploy
+Creating application version archive "app-260113_190538962620".
+Uploading ai-blog-generator/app-260113_190538962620.zip to S3. This may take a while.
+Upload Complete.
+2026-01-13 13:35:40    INFO    Environment update is starting.
+2026-01-13 13:35:44    INFO    Deploying new version to instance(s).
+2026-01-13 13:35:47    INFO    Instance deployment used the commands in your 'Procfile' to initiate startup of your application.
+2026-01-13 13:35:54    INFO    Instance deployment completed successfully.
+2026-01-13 13:36:01    INFO    New application version was deployed to running EC2 instances.
+2026-01-13 13:36:01    INFO    Environment update completed successfully.
+
+2026-01-13 13:37:43    INFO    Environment update is starting.
+2026-01-13 13:37:50    INFO    Updating environment ai-blog-env's configuration settings.
+2026-01-13 13:38:11    INFO    Instance deployment used the commands in your 'Procfile' to initiate startup of your application.
+2026-01-13 13:38:17    INFO    Instance deployment completed successfully.
+2026-01-13 13:38:39    INFO    Successfully deployed new configuration to environment.
+
+PS C:\temp\AI\AI_blog_app\backend> eb deploy
+Creating application version archive "app-260113_190847910942".
+Uploading ai-blog-generator/app-260113_190847910942.zip to S3. This may take a while.
+Upload Complete.
+2026-01-13 13:38:49    INFO    Environment update is starting.
+2026-01-13 13:38:53    INFO    Deploying new version to instance(s).
+2026-01-13 13:38:56    INFO    Instance deployment used the commands in your 'Procfile' to initiate startup of your application.
+2026-01-13 13:39:04    INFO    Instance deployment completed successfully.
+2026-01-13 13:39:10    INFO    New application version was deployed to running EC2 instances.
+2026-01-13 13:39:10    INFO    Environment update completed successfully.
+
+PS C:\temp\AI\AI_blog_app\backend> eb open
+PS C:\temp\AI\AI_blog_app\backend> eb deploy
+Creating application version archive "app-260113_191341592120".
+Uploading ai-blog-generator/app-260113_191341592120.zip to S3. This may take a while.
+Upload Complete.
+2026-01-13 13:43:42    INFO    Environment update is starting.
+2026-01-13 13:43:46    INFO    Deploying new version to instance(s).
+2026-01-13 13:43:50    INFO    Instance deployment used the commands in your 'Procfile' to initiate startup of your application.
+2026-01-13 13:43:57    INFO    Instance deployment completed successfully.
+2026-01-13 13:44:03    INFO    New application version was deployed to running EC2 instances.
+2026-01-13 13:44:04    INFO    Environment update completed successfully.
+
+PS C:\temp\AI\AI_blog_app\backend> eb open
+PS C:\temp\AI\AI_blog_app\backend> eb terminate ai-blog-env
+The environment "ai-blog-env" and all associated instances will be terminated.
+To confirm, type the environment name: ai-blog-env
+2026-01-13 13:46:54    INFO    terminateEnvironment is starting.
+2026-01-13 13:46:54    INFO    Validating environment's EC2 instances have termination protection disabled before performing termination.
+2026-01-13 13:46:55    INFO    Finished validating environment's EC2 instances for termination protection.
+2026-01-13 13:47:12    INFO    Waiting for EC2 instances to terminate. This may take a few minutes.
+2026-01-13 13:49:59    INFO    Deleted EIP: 3.6.211.191
+2026-01-13 13:50:14    INFO    Deleted security group named: awseb-e-rmw2ygatih-stack-AWSEBSecurityGroup-cExMqSmSaba3
+2026-01-13 13:50:16    INFO    Deleting SNS topic for environment ai-blog-env.
+2026-01-13 13:50:17    INFO    terminateEnvironment completed successfully.
+
+PS C:\temp\AI\AI_blog_app\backend>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Details - AI Blog Generator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Smooth transitions */
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+        
+        /* Blog content styling */
+        .blog-content {
+            line-height: 1.8;
+        }
+        
+        .blog-content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+        
+        .blog-content h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #374151;
+        }
+        
+        .blog-content p {
+            margin-bottom: 1.25rem;
+        }
+        
+        .blog-content ul, .blog-content ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+        
+        .blog-content li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .blog-content a {
+            color: #2563eb;
+            text-decoration: underline;
+        }
+        
+        .blog-content a:hover {
+            color: #1d4ed8;
+        }
+        
+        .blog-content blockquote {
+            border-left: 4px solid #3b82f6;
+            padding-left: 1rem;
+            margin: 1.5rem 0;
+            font-style: italic;
+            color: #4b5563;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-100 font-sans antialias">
+    <!-- Navigation Bar -->
+    <nav class="bg-blue-600 p-4 text-white flex justify-between items-center">
+        <div>
+            <h1 class="text-3xl font-bold">AI Blog Generator</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            {% if user.is_authenticated %}
+                <a href="{% url 'all_blog_posts' %}" class="text-white hover:underline">All Blogs</a>
+                <a href="{% url 'index' %}" class="text-white hover:underline">Create New</a>
+                <span class="text-white">Welcome, {{ user.username }}!</span>
+                <a href="{% url 'logout' %}" class="text-white hover:underline">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="text-white hover:underline">Login</a>
+                <a href="{% url 'signup' %}" class="text-white hover:underline">Sign Up</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-grow container mx-auto px-4 py-8 mt-4 max-w-4xl">
+        
+        {% if blog_post %}
+        <!-- Blog Title Section -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-6">
+            <div class="mb-4">
+                <span class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full">
+                    {{ blog_post.category }}
+                </span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4 leading-tight">
+                {{ blog_post.title }}
+            </h1>
+            <div class="flex items-center space-x-4 text-sm text-gray-500 border-t pt-4">
+                <span>📅 Published: {{ blog_post.created_at|date:"F d, Y" }}</span>
+                <span>⏱️ {{ blog_post.content|wordcount|add:"-1"|floatformat:0 }} min read</span>
+                <span>👤 By: {{ blog_post.author.username }}</span>
+            </div>
+        </div>
+
+        <!-- Blog Description/Content Section -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-6">
+            <div class="blog-content text-gray-700">
+                <p class="text-lg font-medium text-gray-800 mb-6 leading-relaxed">
+                    {{ blog_post.description }}
+                </p>
+                <div class="prose max-w-none">
+                    {{ blog_post.content|linebreaks }}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <!-- No Blog Post Found -->
+        <div class="bg-white rounded-lg shadow-md p-8 mb-6 text-center">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Blog Post Not Found</h2>
+            <p class="text-gray-600 mb-6">The blog post you're looking for doesn't exist or has been deleted.</p>
+            <a href="{% url 'all_blog_posts' %}" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                Back to All Blogs
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- Action Buttons -->
+        <div class="flex justify-center space-x-4 mb-6">
+            <button class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                Edit Blog
+            </button>
+            <button class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-semibold">
+                Share
+            </button>
+            <button class="bg-red-100 text-red-600 px-6 py-3 rounded-lg hover:bg-red-200 transition-colors font-semibold">
+                Delete
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer with YouTube Link Details -->
+    <footer class="bg-white border-t border-gray-200 mt-auto">
+        <div class="container mx-auto px-4 py-6 max-w-4xl">
+            <!-- YouTube Source Section -->
+            <div class="bg-gray-50 rounded-lg p-6 mb-4">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3 flex items-center">
+                    <span class="mr-2">📺</span>
+                    Source Video
+                </h3>
+                <div class="space-y-2">
+                    {% if blog_post %}
+                    <div class="flex items-start">
+                        <span class="text-gray-600 font-medium min-w-[100px]">YouTube Link:</span>
+                        <a href="{{ blog_post.youtube_url }}" 
+                           target="_blank" 
+                           rel="noopener noreferrer"
+                           class="text-blue-600 hover:text-blue-800 hover:underline break-all">
+                            {{ blog_post.youtube_url }}
+                        </a>
+                    </div>
+                    {% if blog_post.youtube_title %}
+                    <div class="flex items-start">
+                        <span class="text-gray-600 font-medium min-w-[100px]">Video Title:</span>
+                        <span class="text-gray-700">{{ blog_post.youtube_title }}</span>
+                    </div>
+                    {% endif %}
+                    {% if blog_post.youtube_channel %}
+                    <div class="flex items-start">
+                        <span class="text-gray-600 font-medium min-w-[100px]">Channel:</span>
+                        <span class="text-gray-700">{{ blog_post.youtube_channel }}</span>
+                    </div>
+                    {% endif %}
+                    {% if blog_post.youtube_duration %}
+                    <div class="flex items-start">
+                        <span class="text-gray-600 font-medium min-w-[100px]">Duration:</span>
+                        <span class="text-gray-700">{{ blog_post.youtube_duration }}</span>
+                    </div>
+                    {% endif %}
+                    <div class="flex items-start">
+                        <span class="text-gray-600 font-medium min-w-[100px]">Generated:</span>
+                        <span class="text-gray-700">{{ blog_post.created_at|date:"F d, Y" }} at {{ blog_post.created_at|date:"g:i A" }}</span>
+                    </div>
+                    {% else %}
+                    <p class="text-gray-600">No source video information available.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Footer Links -->
+            <div class="text-center pt-4 border-t border-gray-200">
+                <p class="text-sm text-gray-500">
+                    Powered by <a href="#" class="text-blue-600 hover:underline">MansoorAhmed084</a>
+                </p>
+                <p class="text-xs text-gray-400 mt-2">
+                    This blog post was automatically generated from a YouTube video using AI technology.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Interactive Features -->
+    <script>
+        // Function to handle edit button
+        document.querySelector('button:contains("Edit Blog")')?.addEventListener('click', function() {
+            // TODO: Implement edit functionality
+            console.log('Edit blog post');
+            alert('Edit functionality - Navigate to edit page');
+        });
+
+        // Function to handle share button
+        document.querySelector('button:contains("Share")')?.addEventListener('click', function() {
+            // TODO: Implement share functionality
+            if (navigator.share) {
+                navigator.share({
+                    title: document.querySelector('h1').textContent,
+                    text: 'Check out this blog post!',
+                    url: window.location.href
+                });
+            } else {
+                // Fallback: Copy to clipboard
+                navigator.clipboard.writeText(window.location.href);
+                alert('Link copied to clipboard!');
+            }
+        });
+
+        // Function to handle delete button
+        document.querySelector('button:contains("Delete")')?.addEventListener('click', function() {
+            if (confirm('Are you sure you want to delete this blog post? This action cannot be undone.')) {
+                // TODO: Implement delete functionality
+                console.log('Delete blog post');
+                alert('Blog post deleted');
+                // Redirect to all blog posts page
+                // window.location.href = 'all_blog_posts.html';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Blog Posts - AI Blog Generator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Smooth transitions */
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen bg-gray-100 font-sans antialias">
+    <!-- Navigation Bar -->
+    <nav class="bg-blue-600 p-4 text-white flex justify-between items-center">
+        <div>
+            <h1 class="text-3xl font-bold">AI Blog Generator</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            {% if user.is_authenticated %}
+                <a href="{% url 'index' %}" class="text-white hover:underline">Create New Blog</a>
+                <span class="text-white">Welcome, {{ user.username }}!</span>
+                <a href="{% url 'logout' %}" class="text-white hover:underline">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="text-white hover:underline">Login</a>
+                <a href="{% url 'signup' %}" class="text-white hover:underline">Sign Up</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="flex-grow container mx-auto px-4 py-8 mt-4">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <h2 class="text-4xl font-bold text-gray-800 mb-2">My Blog Posts</h2>
+            <p class="text-gray-600">All your generated blog articles</p>
+        </div>
+
+        <!-- Blog Posts Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% if blog_posts %}
+                {% for blog_post in blog_posts %}
+                <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow transform hover:scale-[1.02]">
+                    <!-- Blog Image Placeholder -->
+                    <div class="h-48 bg-gradient-to-r from-blue-400 to-blue-600 flex items-center justify-center">
+                        <span class="text-white text-2xl font-bold">Blog Image</span>
+                    </div>
+                    
+                    <!-- Blog Content -->
+                    <div class="p-6">
+                        <!-- Category/Tag -->
+                        <div class="mb-2">
+                            <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
+                                {{ blog_post.category }}
+                            </span>
+                        </div>
+                        
+                        <!-- Title -->
+                        <h3 class="text-xl font-bold text-gray-800 mb-2 line-clamp-2">
+                            {{ blog_post.title }}
+                        </h3>
+                        
+                        <!-- Excerpt -->
+                        <p class="text-gray-600 text-sm mb-4 line-clamp-3">
+                            {{ blog_post.description|truncatewords:30 }}
+                        </p>
+                        
+                        <!-- Meta Information -->
+                        <div class="flex items-center justify-between text-xs text-gray-500 mb-4">
+                            <span>📅 {{ blog_post.created_at|date:"M d, Y" }}</span>
+                            <span>⏱️ {{ blog_post.content|wordcount|add:"-1"|floatformat:0 }} min read</span>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="flex space-x-2">
+                            <a href="{% url 'blog_details' blog_post.id %}" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold text-center">
+                                Read More
+                            </a>
+                            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-sm">
+                                Edit
+                            </button>
+                            <button class="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors text-sm">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <!-- Empty State Card -->
+                <div class="col-span-full bg-white rounded-lg shadow-md border-2 border-dashed border-gray-300 flex items-center justify-center min-h-[400px] hover:border-blue-400 transition-colors">
+                    <div class="text-center p-6">
+                        <div class="text-6xl mb-4">📝</div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">No Blog Posts Yet</h3>
+                        <p class="text-gray-500 mb-4">Start generating your first blog post from a YouTube video</p>
+                        <a href="{% url 'index' %}" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                            Create New Blog
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Pagination (Optional) -->
+        <div class="mt-8 flex justify-center items-center space-x-2">
+            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Previous
+            </button>
+            <span class="px-4 py-2 text-gray-700 font-semibold">Page 1 of 1</span>
+            <button class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Next
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center p-4 text-black mt-6 bg-white border-t">
+        <p class="text-sm text-gray-500">
+            Powered by <a href="#" class="text-blue-600 hover:underline">MansoorAhmed084</a>
+        </p>
+    </footer>
+
+    <!-- JavaScript for Interactive Features -->
+    <script>
+        // Function to handle blog post actions
+        function handleReadMore(blogId) {
+            // TODO: Implement navigation to full blog post page
+            console.log('Reading blog post:', blogId);
+            alert('Navigate to full blog post view');
+        }
+
+        function handleEdit(blogId) {
+            // TODO: Implement edit functionality
+            console.log('Editing blog post:', blogId);
+            alert('Edit blog post functionality');
+        }
+
+        function handleDelete(blogId) {
+            // TODO: Implement delete functionality with confirmation
+            if (confirm('Are you sure you want to delete this blog post?')) {
+                console.log('Deleting blog post:', blogId);
+                // Remove the blog post from the DOM or make API call
+                alert('Blog post deleted');
+            }
+        }
+
+        // Add event listeners to buttons (when you have multiple blog posts)
+        document.addEventListener('DOMContentLoaded', function() {
+            // Example: Add click handlers to all "Read More" buttons
+            const readMoreButtons = document.querySelectorAll('button:contains("Read More")');
+            // You can add more interactive features here
+        });
+    </script>
+</body>
+</html>

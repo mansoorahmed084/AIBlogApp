@@ -53,10 +53,17 @@
 <body class="flex flex-col min-h-screen bg-gray-100 font-sans antialias">
     <nav class="bg-blue-600 p-4 text-white flex justify-between">
         <div>
-            <h1 class="text-3xl font-bold">AI AI Blog Generator</h1>
+            <h1 class="text-3xl font-bold">AI Blog Generator</h1>
         </div> 
-        <div>
-            <a href="#" class="text-white hover:underline">Logout </a>
+        <div class="flex items-center space-x-4">
+            {% if user.is_authenticated %}
+                <a href="{% url 'all_blog_posts' %}" class="text-white hover:underline">My Blogs</a>
+                <span class="text-white">Welcome, {{ user.username }}!</span>
+                <a href="{% url 'logout' %}" class="text-white hover:underline">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}" class="text-white hover:underline">Login</a>
+                <a href="{% url 'signup' %}" class="text-white hover:underline">Sign Up</a>
+            {% endif %}
         </div>
     </nav>
     <br> 
@@ -141,5 +148,4 @@
     </script>
 
 </body>
-</html>
 </html>

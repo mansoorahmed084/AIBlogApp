@@ -29,7 +29,7 @@
                 <!-- Header -->
                 <div class="text-center mb-8">
                     <h2 class="text-3xl font-bold text-gray-800 mb-2">Welcome</h2>
-                    <p class="text-gray-600">Please enter your details to Sign up</p>
+                    <p class="text-gray-600">Please enter your details to create an account</p>
                 </div>
 
                 <!-- Sign Up Form -->
@@ -113,7 +113,7 @@
                 <div class="text-center">
                     <p class="text-sm text-gray-600">
                         Already have an account? 
-                        <a href="index.html" class="text-blue-600 hover:text-blue-800 font-semibold hover:underline">
+                        <a href="/login/" class="text-blue-600 hover:text-blue-800 font-semibold hover:underline">
                             Sign in
                         </a>
                     </p>
@@ -122,7 +122,7 @@
 
             <!-- Footer Note -->
             <p class="text-center text-sm text-gray-500 mt-6">
-                Powered by <a href="https://www.youtube.com/c/CodeWithTomi" class="text-blue-600 hover:underline">CodeWithTomi</a>
+                Powered by <a href="#" class="text-blue-600 hover:underline">MansoorAhmed084</a>
             </p>
         </div>
     </div>
@@ -178,16 +178,24 @@
                 console.log('Email:', email);
                 console.log('Password:', password);
                 
-                // Example: Redirect to main app after successful login
-                // window.location.href = '../frontend/index.html';
+                // Update button to show success
+                SignUpButton.textContent = 'Success! Redirecting...';
+                SignUpButton.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+                SignUpButton.classList.add('bg-green-600');
                 
-                // Reset button state (remove this when you add real authentication)
-                SignUpButton.disabled = false;
-                SignUpButton.textContent = originalText;
-                SignUpButton.classList.remove('opacity-75', 'cursor-not-allowed');
-                
-                // For now, just show an alert
-                alert('SignUp functionality - Replace with actual Sign up');
+                // Redirect to login page after successful signup
+                // Small delay to show success message, then redirect
+                setTimeout(function() {
+                    console.log('Redirecting to /login/');
+                    // Try multiple redirect methods to ensure it works
+                    try {
+                        window.location.href = '/login/';
+                    } catch (e) {
+                        console.error('Redirect error:', e);
+                        // Fallback method
+                        window.location.replace('/login/');
+                    }
+                }, 500);
             }, 1000);
         });
     </script>

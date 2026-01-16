@@ -38,6 +38,11 @@ Generate blog posts from YouTube URLs using transcription + LLMs.
 4. Click "Generate Blog" and wait for the result.
 5. You should be redirected to the blog details page if successful.
 
+## Edit and Delete Blogs
+
+- **Edit**: Open a blog (from **My Blog Posts** or **Blog Details**) and click **Edit**. Update title/description/content/category, then **Save Changes**.
+- **Delete**: From **My Blog Posts** or **Blog Details**, click **Delete** and confirm the prompt. The post is removed and you are redirected back to **My Blog Posts**.
+
 If you see an error popup, check `backend\django.log` and the terminal output.
 
 ## Test in the Browser (AWS Elastic Beanstalk)

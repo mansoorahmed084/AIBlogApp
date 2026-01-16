@@ -129,9 +129,9 @@
         <!-- Action Buttons -->
         {% if blog_post %}
         <div class="flex justify-center space-x-4 mb-6">
-            <button id="editBlogButton" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+            <a href="{% url 'edit_blog' blog_post.id %}" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
                 Edit Blog
-            </button>
+            </a>
             <button id="shareBlogButton" class="bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors font-semibold">
                 Share
             </button>
@@ -207,15 +207,6 @@
 
     <!-- JavaScript for Interactive Features -->
     <script>
-        const editButton = document.getElementById('editBlogButton');
-        if (editButton) {
-            editButton.addEventListener('click', function() {
-                // TODO: Implement edit functionality
-                console.log('Edit blog post');
-                alert('Edit functionality - Navigate to edit page');
-            });
-        }
-
         const shareButton = document.getElementById('shareBlogButton');
         if (shareButton) {
             shareButton.addEventListener('click', function() {

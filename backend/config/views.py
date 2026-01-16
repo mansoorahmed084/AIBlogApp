@@ -155,6 +155,42 @@ def blog_details(request, blog_id=None):
 
 
 @login_required
+@require_http_methods(["GET", "POST"])
+def edit_blog(request, blog_id):
+    """Edit a blog post owned by the logged-in user"""
+    blog_post = get_object_or_404(BlogPost, id=blog_id, author=request.user)
+    errors = {}
+
+    if request.method == 'POST':
+        title = request.POST.get('title', '').strip()
+        description = request.POST.get('description', '').strip()
+        content = request.POST.get('content', '').strip()
+        category = request.POST.get('category', '').strip() or blog_post.category
+
+        if not title:
+            errors['title'] = 'Title is required.'
+        if not description:
+            errors['description'] = 'Description is required.'
+        if not content:
+            errors['content'] = 'Content is required.'
+
+        if not errors:
+            blog_post.title = title
+            blog_post.description = description
+            blog_post.content = content
+            blog_post.category = category
+            blog_post.save(update_fields=['title', 'description', 'content', 'category', 'updated_at'])
+            messages.success(request, 'Blog post updated successfully.')
+            return redirect('blog_details', blog_id=blog_post.id)
+
+    context = {
+        'blog_post': blog_post,
+        'errors': errors,
+    }
+    return render(request, 'edit-blog.html', context)
+
+
+@login_required
 @require_http_methods(["POST"])
 def delete_blog(request, blog_id):
     """Delete a blog post owned by the logged-in user"""

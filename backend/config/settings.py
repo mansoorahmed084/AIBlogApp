@@ -37,6 +37,10 @@ ALLOWED_HOSTS = [
 if 'ALLOWED_HOST' in os.environ:
     ALLOWED_HOSTS.append(os.environ['ALLOWED_HOST'])
 
+# Authentication URLs
+LOGIN_URL = '/login/'  # Where to redirect unauthenticated users
+LOGIN_REDIRECT_URL = '/'  # Where to redirect after successful login
+LOGOUT_REDIRECT_URL = '/login/'  # Where to redirect after logout
 
 # Application definition
 
@@ -138,3 +142,42 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Media files (user uploads)
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'django.log',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console', 'file'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'config': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}

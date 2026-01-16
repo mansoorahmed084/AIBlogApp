@@ -3,3 +3,32 @@ asgiref==3.11.0
 sqlparse==0.5.5
 tzdata==2025.2
 gunicorn==23.0.0
+
+# YouTube and Audio Processing
+yt-dlp>=2023.12.30
+ffmpeg-python>=0.2.0  # Python wrapper for FFmpeg (FFmpeg binary must be installed separately)
+
+# NOTE: FFmpeg is NOT a Python package - it must be installed separately
+# Installation options:
+#   1. Windows: choco install ffmpeg (if Chocolatey is installed)
+#   2. Windows: winget install ffmpeg (Windows 10/11)
+#   3. Manual: Download from https://ffmpeg.org/download.html
+#   4. See INSTALL_FFMPEG.md for detailed instructions
+# 
+# The app will work without FFmpeg, but audio conversion to WAV format
+# requires FFmpeg for better transcription compatibility.
+
+# FREE Transcription Options (choose one or more)
+# NOTE: openai-whisper removed from production deployment due to PyTorch size (~900MB)
+# For local development, install separately: pip install openai-whisper
+# The code will automatically use API-based transcription (AssemblyAI/Deepgram) if Whisper is not available
+requests>=2.31.0  # For AssemblyAI and Deepgram APIs
+
+# FREE Blog Generation Options
+google-genai>=0.2.0  # Google Gemini (FREE tier) - new package
+# google-generativeai>=0.3.0  # Deprecated, use google-genai instead
+
+# Optional Paid APIs (better quality but costs money)
+openai>=1.0.0  # OpenAI GPT (paid) - also works with Groq API
+google-cloud-speech>=2.23.0  # Google Speech-to-Text (first 60 min/month free)
+google-auth>=2.25.0

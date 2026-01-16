@@ -1,13 +1,20 @@
 """
 Views for the AI Blog Generator application
 """
+import logging
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
+from django.http import JsonResponse
+from django.views.decorators.http import require_http_methods
 from .models import BlogPost
+from .blog_generator import generate_blog_from_youtube
+
+# Set up logging
+logger = logging.getLogger(__name__)
 
 
 def index(request):
@@ -41,6 +48,9 @@ def login_view(request):
 
 def logout_view(request):
     """Handle user logout"""
+    # Clear all existing messages before logout by consuming them
+    list(messages.get_messages(request))  # Consume all existing messages
+    
     logout(request)
     messages.success(request, 'You have been logged out successfully.')
     return redirect('login')
@@ -142,3 +152,141 @@ def blog_details(request, blog_id=None):
         'blog_post': blog_post,
     }
     return render(request, 'blog-details.html', context)
+
+
+@require_http_methods(["POST"])
+def generate_blog(request):
+    """Generate blog post from YouTube URL"""
+    # Check if user is authenticated
+    if not request.user.is_authenticated:
+        # For AJAX requests, return JSON error instead of redirecting
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return JsonResponse({
+                'success': False,
+                'error': 'Please log in to generate blog posts.',
+                'login_required': True,
+                'login_url': '/login/?next=/generate-blog/'
+            }, status=401)
+        # For regular form submissions, redirect to login
+        return redirect('/login/?next=/generate-blog/')
+    
+    youtube_url = request.POST.get('youtube_url', '').strip()
+    
+    if not youtube_url:
+        return JsonResponse({
+            'success': False,
+            'error': 'Please provide a YouTube URL.'
+        }, status=400)
+    
+    # Validate YouTube URL format
+    if 'youtube.com' not in youtube_url and 'youtu.be' not in youtube_url:
+        return JsonResponse({
+            'success': False,
+            'error': 'Please provide a valid YouTube URL.'
+        }, status=400)
+    
+    try:
+        # Generate blog post
+        logger.info(f"Starting blog generation for URL: {youtube_url}")
+        result = generate_blog_from_youtube(youtube_url)
+        
+        logger.info(f"Blog generation result: success={result.get('success')}, error={result.get('error')}")
+        
+        if not result['success']:
+            error_msg = result.get('error', 'Failed to generate blog post.')
+            logger.error(f"Blog generation failed: {error_msg}")
+            return JsonResponse({
+                'success': False,
+                'error': error_msg
+            }, status=500)
+        
+        # Save blog post to database
+        blog_post = BlogPost.objects.create(
+            title=result['blog_post']['title'],
+            description=result['blog_post']['description'],
+            content=result['blog_post']['content'],
+            youtube_url=youtube_url,
+            youtube_title=result['video_info'].get('title', ''),
+            youtube_channel=result['video_info'].get('channel', ''),
+            youtube_duration=result['video_info'].get('duration', ''),
+            author=request.user,
+            category='Technology',  # Default category, can be made dynamic
+        )
+        
+        return JsonResponse({
+            'success': True,
+            'blog_id': blog_post.id,
+            'message': 'Blog post generated successfully!',
+            'redirect_url': f'/blog-details/{blog_post.id}/'
+        })
+        
+    except Exception as e:
+        import traceback
+        error_trace = traceback.format_exc()
+        logger.error(f"Exception in generate_blog view: {str(e)}\n{error_trace}")
+        return JsonResponse({
+            'success': False,
+            'error': f'An error occurred: {str(e)}'
+        }, status=500)
+
+
+@login_required
+def test_blog_generator(request):
+    """Debug endpoint to test blog generator from Django context"""
+    import shutil
+    import subprocess
+    
+    diagnostics = {
+        'ffmpeg_in_path': shutil.which('ffmpeg') is not None,
+        'ffmpeg_path': shutil.which('ffmpeg'),
+        'yt_dlp_available': False,
+        'whisper_available': False,
+        'test_url': 'https://www.youtube.com/watch?v=skMzCAga-dg',
+    }
+    
+    # Check yt-dlp
+    try:
+        import yt_dlp
+        diagnostics['yt_dlp_available'] = True
+        diagnostics['yt_dlp_version'] = yt_dlp.version.__version__
+    except ImportError:
+        pass
+    
+    # Check whisper
+    try:
+        import whisper
+        diagnostics['whisper_available'] = True
+    except ImportError:
+        pass
+    
+    # Test FFmpeg
+    if diagnostics['ffmpeg_path']:
+        try:
+            result = subprocess.run([diagnostics['ffmpeg_path'], '-version'], 
+                                  capture_output=True, 
+                                  text=True, 
+                                  timeout=5)
+            diagnostics['ffmpeg_version'] = result.stdout.split('\n')[0] if result.stdout else 'Unknown'
+        except:
+            diagnostics['ffmpeg_version'] = 'Error checking version'
+    
+    # Try a simple download test
+    if request.GET.get('test') == 'download':
+        try:
+            from .blog_generator import YouTubeBlogGenerator
+            generator = YouTubeBlogGenerator()
+            test_url = diagnostics['test_url']
+            logger.info(f"Testing download for: {test_url}")
+            audio_file = generator.download_audio(test_url)
+            diagnostics['download_test'] = {
+                'success': audio_file is not None,
+                'audio_file': audio_file if audio_file else None,
+            }
+        except Exception as e:
+            diagnostics['download_test'] = {
+                'success': False,
+                'error': str(e),
+            }
+            logger.error(f"Download test failed: {e}", exc_info=True)
+    
+    return JsonResponse(diagnostics, json_dumps_params={'indent': 2})

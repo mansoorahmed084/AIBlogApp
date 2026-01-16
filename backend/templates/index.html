@@ -84,10 +84,35 @@
         <!--Youtube link section-->
         <div>
             <h2 class="text-xl mb-4 font-semibold">Enter the YouTube link here</h2>
-            <div class="flex space-x-4">
-                <input id="youtubelink" type="url" placeholder="Paste Youtube link..." class="flex-grow p-2 border border-blue-400 rounded-l-md">
-                <button id="generateBlogButton" class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition-colors">generate Blog</button>
+            {% if messages %}
+            <div class="mb-4">
+                {% for message in messages %}
+                <div class="p-4 mb-2 bg-{% if message.tags == 'error' %}red{% elif message.tags == 'success' %}green{% else %}blue{% endif %}-50 border-l-4 border-{% if message.tags == 'error' %}red{% elif message.tags == 'success' %}green{% else %}blue{% endif %}-500 rounded">
+                    <p class="text-sm text-{% if message.tags == 'error' %}red{% elif message.tags == 'success' %}green{% else %}blue{% endif %}-800">{{ message }}</p>
+                </div>
+                {% endfor %}
             </div>
+            {% endif %}
+            <form id="blogGenerationForm" method="POST" action="{% url 'generate_blog' %}">
+                {% csrf_token %}
+                <div class="flex space-x-4">
+                    <input 
+                        id="youtubelink" 
+                        name="youtube_url"
+                        type="url" 
+                        placeholder="Paste Youtube link..." 
+                        required
+                        class="flex-grow p-2 border border-blue-400 rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                    <button 
+                        type="submit"
+                        id="generateBlogButton" 
+                        class="bg-blue-600 text-white px-4 py-2 rounded-r-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        Generate Blog
+                    </button>
+                </div>
+            </form>
         </div>
 
         <!--Generted blog display section-->
@@ -131,17 +156,135 @@
             }
         }
         
-        // Show spinner when GenerateBlogButton is clicked
+        // Handle blog generation form submission
         document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('blogGenerationForm');
             const generateButton = document.getElementById('generateBlogButton');
-            if (generateButton) {
-                generateButton.addEventListener('click', function() {
+            const youtubeInput = document.getElementById('youtubelink');
+            
+            if (form) {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const youtubeUrl = youtubeInput.value.trim();
+                    
+                    if (!youtubeUrl) {
+                        alert('Please enter a YouTube URL');
+                        return;
+                    }
+                    
+                    // Validate YouTube URL
+                    if (!youtubeUrl.includes('youtube.com') && !youtubeUrl.includes('youtu.be')) {
+                        alert('Please enter a valid YouTube URL');
+                        return;
+                    }
+                    
+                    // Show loading state
                     showLoading();
-                    // TODO: Replace this setTimeout with your actual video processing code
-                    // This is just for testing - remove when you add real processing logic
-                    setTimeout(function() {
+                    generateButton.disabled = true;
+                    generateButton.textContent = 'Generating...';
+                    
+                    // Get CSRF token
+                    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                    
+                    let timeoutId = null;
+                    try {
+                        // Submit form via AJAX
+                        const formData = new FormData(form);
+                        const generateUrl = '{% url "generate_blog" %}';
+                        
+                        console.log('Sending request to:', generateUrl);
+                        console.log('YouTube URL:', youtubeUrl);
+                        
+                        // Create AbortController for timeout
+                        const controller = new AbortController();
+                        timeoutId = setTimeout(() => controller.abort(), 600000); // 10 minute timeout
+                        
+                        const response = await fetch(generateUrl, {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRFToken': csrftoken
+                            },
+                            signal: controller.signal
+                        });
+                        
+                        if (timeoutId) clearTimeout(timeoutId);
+                        
+                        console.log('Response status:', response.status);
+                        
+                        // Check if response is JSON or HTML (redirect)
+                        const contentType = response.headers.get('content-type');
+                        if (!contentType || !contentType.includes('application/json')) {
+                            // Got HTML instead of JSON - likely a redirect to login
+                            hideLoading();
+                            generateButton.disabled = false;
+                            generateButton.textContent = 'Generate Blog';
+                            alert('Please log in to generate blog posts. Redirecting to login page...');
+                            window.location.href = '/login/?next=/generate-blog/';
+                            return;
+                        }
+                        
+                        if (!response.ok) {
+                            const errorText = await response.text();
+                            console.error('Error response:', errorText);
+                            // Try to parse as JSON
+                            try {
+                                const errorData = JSON.parse(errorText);
+                                if (errorData.login_required) {
+                                    hideLoading();
+                                    generateButton.disabled = false;
+                                    generateButton.textContent = 'Generate Blog';
+                                    alert('Please log in to generate blog posts. Redirecting to login page...');
+                                    window.location.href = errorData.login_url || '/login/';
+                                    return;
+                                }
+                                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                            } catch {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                        }
+                        
+                        const data = await response.json();
+                        console.log('Response data:', data);
+                        
+                        if (data.success) {
+                            // Success - redirect to blog details page
+                            window.location.href = data.redirect_url;
+                        } else {
+                            // Error - show message
+                            hideLoading();
+                            generateButton.disabled = false;
+                            generateButton.textContent = 'Generate Blog';
+                            if (data.login_required) {
+                                alert('Please log in to generate blog posts. Redirecting to login page...');
+                                window.location.href = data.login_url || '/login/';
+                            } else {
+                                alert('Error: ' + (data.error || 'Failed to generate blog post'));
+                            }
+                        }
+                    } catch (error) {
+                        if (timeoutId) clearTimeout(timeoutId);
+                        // Network or other error
                         hideLoading();
-                    }, 3000);
+                        generateButton.disabled = false;
+                        generateButton.textContent = 'Generate Blog';
+                        
+                        let errorMessage = 'Unknown error occurred';
+                        if (error.name === 'AbortError') {
+                            errorMessage = 'Request timed out. Blog generation takes several minutes. Please check if it completed in the background.';
+                        } else if (error.message) {
+                            errorMessage = error.message;
+                        }
+                        
+                        alert('Error: ' + errorMessage);
+                        console.error('Full error:', error);
+                        console.error('Error details:', {
+                            name: error.name,
+                            message: error.message,
+                            stack: error.stack
+                        });
+                    }
                 });
             }
         });

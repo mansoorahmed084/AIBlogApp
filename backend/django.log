@@ -1,0 +1,128 @@
+INFO 2026-01-14 16:54:00,236 log "GET / HTTP/1.1" 200 10581
+INFO 2026-01-14 16:54:08,597 views Starting blog generation for URL: https://www.youtube.com/watch?v=skMzCAga-dg
+INFO 2026-01-14 16:54:15,500 blog_generator FFmpeg found at: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffmpeg.exe
+INFO 2026-01-14 16:54:15,500 blog_generator FFprobe found at: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffprobe.exe
+INFO 2026-01-14 16:54:15,500 blog_generator Using FFmpeg from directory: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links
+INFO 2026-01-14 16:54:15,500 blog_generator   FFmpeg: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffmpeg.exe
+INFO 2026-01-14 16:54:15,500 blog_generator   FFprobe: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffprobe.exe
+INFO 2026-01-14 16:54:15,500 blog_generator Downloading audio to: C:\Users\IN009286\AppData\Local\Temp\tmpuwogch9a
+INFO 2026-01-14 16:54:31,112 views Blog generation result: success=False, error=Could not transcribe audio. Please install local Whisper (pip install openai-whisper) or set up API credentials.
+ERROR 2026-01-14 16:54:31,113 views Blog generation failed: Could not transcribe audio. Please install local Whisper (pip install openai-whisper) or set up API credentials.
+ERROR 2026-01-14 16:54:31,114 log Internal Server Error: /generate-blog/
+ERROR 2026-01-14 16:54:31,116 log "POST /generate-blog/ HTTP/1.1" 500 143
+INFO 2026-01-14 16:56:45,877 autoreload C:\temp\AI\AI_blog_app\backend\config\blog_generator.py changed, reloading.
+INFO 2026-01-14 16:56:49,664 autoreload Watching for file changes with StatReloader
+INFO 2026-01-14 16:57:53,419 autoreload C:\temp\AI\AI_blog_app\backend\config\blog_generator.py changed, reloading.
+INFO 2026-01-14 16:57:56,682 autoreload Watching for file changes with StatReloader
+INFO 2026-01-14 17:00:36,245 log "GET / HTTP/1.1" 200 10581
+INFO 2026-01-14 17:00:40,405 views Starting blog generation for URL: https://www.youtube.com/watch?v=skMzCAga-dg
+INFO 2026-01-14 17:00:47,326 blog_generator FFmpeg found at: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffmpeg.exe
+INFO 2026-01-14 17:00:47,326 blog_generator FFprobe found at: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffprobe.exe
+INFO 2026-01-14 17:00:47,326 blog_generator Using FFmpeg from directory: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links
+INFO 2026-01-14 17:00:47,326 blog_generator   FFmpeg: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffmpeg.exe
+INFO 2026-01-14 17:00:47,326 blog_generator   FFprobe: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffprobe.exe
+INFO 2026-01-14 17:00:47,326 blog_generator Downloading audio to: C:\Users\IN009286\AppData\Local\Temp\tmpg9ucdd8e
+INFO 2026-01-14 17:00:54,693 blog_generator Transcribing audio...
+INFO 2026-01-14 17:00:54,693 blog_generator Trying local Whisper (FREE, no API needed)...
+INFO 2026-01-14 17:00:54,693 blog_generator Loading Whisper model (first time may take a moment)...
+INFO 2026-01-14 17:00:56,965 blog_generator Transcribing audio with local Whisper...
+ERROR 2026-01-14 17:00:57,088 blog_generator Error transcribing with local Whisper: [WinError 2] The system cannot find the file specified
+Traceback (most recent call last):
+  File "C:\temp\AI\AI_blog_app\backend\config\blog_generator.py", line 452, in transcribe_audio_local_whisper
+    result = model.transcribe(audio_file_path, language="en")
+  File "C:\Users\IN009286\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\whisper\transcribe.py", line 139, in transcribe
+    mel = log_mel_spectrogram(audio, model.dims.n_mels, padding=N_SAMPLES)
+  File "C:\Users\IN009286\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\whisper\audio.py", line 140, in log_mel_spectrogram
+    audio = load_audio(audio)
+  File "C:\Users\IN009286\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\whisper\audio.py", line 58, in load_audio
+    out = run(cmd, capture_output=True, check=True).stdout
+          ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\Lib\subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\Lib\subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.2544.0_x64__qbz5n2kfra8p0\Lib\subprocess.py", line 1554, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+                             # no special security
+                             ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+                             cwd,
+                             ^^^^
+                             startupinfo)
+                             ^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+INFO 2026-01-14 17:01:29,167 views Blog generation result: success=False, error=Could not transcribe audio. Please install local Whisper (pip install openai-whisper) or set up API credentials.
+ERROR 2026-01-14 17:01:29,167 views Blog generation failed: Could not transcribe audio. Please install local Whisper (pip install openai-whisper) or set up API credentials.
+ERROR 2026-01-14 17:01:29,167 log Internal Server Error: /generate-blog/
+ERROR 2026-01-14 17:01:29,168 log "POST /generate-blog/ HTTP/1.1" 500 143
+INFO 2026-01-14 17:01:54,198 autoreload C:\temp\AI\AI_blog_app\backend\config\blog_generator.py changed, reloading.
+INFO 2026-01-14 17:01:56,879 autoreload Watching for file changes with StatReloader
+INFO 2026-01-14 17:02:16,161 views Starting blog generation for URL: https://www.youtube.com/watch?v=skMzCAga-dg
+INFO 2026-01-14 17:02:22,237 blog_generator FFmpeg found at: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffmpeg.exe
+INFO 2026-01-14 17:02:22,237 blog_generator FFprobe found at: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffprobe.exe
+INFO 2026-01-14 17:02:22,237 blog_generator Using FFmpeg from directory: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links
+INFO 2026-01-14 17:02:22,237 blog_generator   FFmpeg: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffmpeg.exe
+INFO 2026-01-14 17:02:22,237 blog_generator   FFprobe: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffprobe.exe
+INFO 2026-01-14 17:02:22,237 blog_generator Downloading audio to: C:\Users\IN009286\AppData\Local\Temp\tmp1_8bck81
+INFO 2026-01-14 17:02:28,465 blog_generator Transcribing audio...
+INFO 2026-01-14 17:02:28,466 blog_generator Trying local Whisper (FREE, no API needed)...
+INFO 2026-01-14 17:02:29,437 blog_generator Added FFmpeg directory to PATH for Whisper: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links
+INFO 2026-01-14 17:02:29,437 blog_generator Loading Whisper model (first time may take a moment)...
+INFO 2026-01-14 17:02:31,233 blog_generator Transcribing audio with local Whisper...
+INFO 2026-01-14 17:03:16,630 blog_generator Whisper transcription completed. Length: 2851 characters
+INFO 2026-01-14 17:03:16,650 blog_generator Whisper transcription successful. Length: 2851 characters
+INFO 2026-01-14 17:03:18,276 _client HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 401 Unauthorized"
+INFO 2026-01-14 17:03:18,280 views Blog generation result: success=True, error=None
+INFO 2026-01-14 17:03:18,304 log "POST /generate-blog/ HTTP/1.1" 200 115
+INFO 2026-01-14 17:03:18,417 log "GET /blog-details/1/ HTTP/1.1" 200 10849
+INFO 2026-01-14 17:04:15,983 log "GET /blogs/ HTTP/1.1" 200 6333
+INFO 2026-01-14 17:04:24,503 log "GET /blog-details/1/ HTTP/1.1" 200 10849
+INFO 2026-01-14 17:47:57,450 autoreload C:\temp\AI\AI_blog_app\backend\config\blog_generator.py changed, reloading.
+INFO 2026-01-14 17:48:04,296 autoreload Watching for file changes with StatReloader
+INFO 2026-01-14 18:11:51,130 autoreload C:\temp\AI\AI_blog_app\backend\config\settings.py changed, reloading.
+INFO 2026-01-14 18:11:56,345 autoreload Watching for file changes with StatReloader
+INFO 2026-01-14 18:12:59,319 autoreload C:\temp\AI\AI_blog_app\backend\config\settings.py changed, reloading.
+INFO 2026-01-14 18:13:02,350 autoreload Watching for file changes with StatReloader
+INFO 2026-01-14 18:43:26,049 autoreload C:\temp\AI\AI_blog_app\backend\config\views.py changed, reloading.
+INFO 2026-01-14 18:43:28,761 autoreload Watching for file changes with StatReloader
+INFO 2026-01-14 18:44:29,580 autoreload C:\temp\AI\AI_blog_app\backend\config\views.py changed, reloading.
+INFO 2026-01-14 18:44:31,962 autoreload Watching for file changes with StatReloader
+INFO 2026-01-14 18:45:10,642 autoreload C:\temp\AI\AI_blog_app\backend\config\views.py changed, reloading.
+INFO 2026-01-14 18:45:12,240 autoreload Watching for file changes with StatReloader
+INFO 2026-01-14 18:52:06,740 autoreload C:\temp\AI\AI_blog_app\backend\config\blog_generator.py changed, reloading.
+INFO 2026-01-14 18:52:10,400 autoreload Watching for file changes with StatReloader
+INFO 2026-01-14 18:53:03,602 autoreload C:\temp\AI\AI_blog_app\backend\config\blog_generator.py changed, reloading.
+INFO 2026-01-14 18:53:05,421 autoreload Watching for file changes with StatReloader
+INFO 2026-01-16 17:14:23,759 autoreload Watching for file changes with StatReloader
+INFO 2026-01-16 17:14:41,851 log "GET / HTTP/1.1" 200 12572
+WARNING 2026-01-16 17:14:44,771 log Not Found: /favicon.ico
+WARNING 2026-01-16 17:14:44,773 log "GET /favicon.ico HTTP/1.1" 404 179
+INFO 2026-01-16 17:14:53,366 log "GET /blogs/ HTTP/1.1" 200 6333
+INFO 2026-01-16 17:14:57,135 log "GET / HTTP/1.1" 200 12572
+INFO 2026-01-16 17:15:50,079 views Starting blog generation for URL: https://youtu.be/pBASqUbZgkY?si=BHNB4ayzofTSkraX
+INFO 2026-01-16 17:15:50,080 blog_generator Groq API key loaded from file: C:\temp\AI\secret keys\groq_api_key.txt
+INFO 2026-01-16 17:15:50,084 blog_generator AssemblyAI API key loaded from file: C:\temp\AI\secret keys\assemblyAI_key.txt
+INFO 2026-01-16 17:15:55,737 blog_generator FFmpeg found in PATH: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffmpeg.EXE
+INFO 2026-01-16 17:15:55,737 blog_generator Using FFmpeg from directory: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links
+INFO 2026-01-16 17:15:55,737 blog_generator   FFmpeg: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffmpeg.EXE
+INFO 2026-01-16 17:15:55,738 blog_generator   FFprobe: C:\Users\IN009286\AppData\Local\Microsoft\WinGet\Links\ffprobe.EXE
+INFO 2026-01-16 17:15:55,739 blog_generator Downloading audio to: C:\Users\IN009286\AppData\Local\Temp\tmpfrw8287h
+INFO 2026-01-16 17:16:04,726 blog_generator Transcribing audio...
+INFO 2026-01-16 17:16:04,729 blog_generator Trying local Whisper (FREE, no API needed)...
+WARNING 2026-01-16 17:16:04,735 blog_generator Whisper not available. Install with: pip install openai-whisper
+WARNING 2026-01-16 17:16:04,736 blog_generator Whisper transcription returned empty result
+INFO 2026-01-16 17:16:22,153 views Blog generation result: success=False, error=Could not transcribe audio. Please install local Whisper (pip install openai-whisper) or set up API credentials.
+ERROR 2026-01-16 17:16:22,154 views Blog generation failed: Could not transcribe audio. Please install local Whisper (pip install openai-whisper) or set up API credentials.
+ERROR 2026-01-16 17:16:22,162 log Internal Server Error: /generate-blog/
+ERROR 2026-01-16 17:16:22,164 log "POST /generate-blog/ HTTP/1.1" 500 143
